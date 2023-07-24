@@ -1,4 +1,4 @@
-import { useForm } from '../hooks'
+import { useForm } from '../hooks/useForm'
 
 export interface Props extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
   onSubmit: () => Promise<void>

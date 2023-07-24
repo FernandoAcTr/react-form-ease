@@ -1,4 +1,4 @@
-import { useForm } from '../hooks'
+import { useForm } from '../hooks/useForm'
 
 export default function HotValidation() {
   const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm, validateInput } = useForm({

@@ -1,4 +1,4 @@
-import { useForm } from '../hooks'
+import { useForm } from '../hooks/useForm'
 import Form from '../components/form'
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms))
@@ -27,7 +27,7 @@ export default function FormComponent() {
       },
     },
     asyncValidations: {
-      email: async (value) => {
+      email: async (_value) => {
         //Checking in backend if email already exists
         await sleep(1000)
         if (Math.random() < 0.5) return 'This email is already taken'
