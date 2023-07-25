@@ -1,13 +1,13 @@
 import { useForm } from '../hooks/useForm'
 
-export interface Props extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
+export interface FormProps extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
   onSubmit: () => Promise<void>
   form: Partial<ReturnType<typeof useForm>>
   resetAfterSubmit?: boolean
   children: React.ReactNode
 }
 
-export default function Form(props: Omit<Props, 'noValidate'>) {
+export default function Form(props: Omit<FormProps, 'noValidate'>) {
   const { form, onSubmit, resetAfterSubmit = false, children } = props
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'index.ts'),
-      name: 'react-easy-form',
-      fileName: (format) => `index.${format}.js`,
+      name: 'react-form-ease',
+      fileName: 'index',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
