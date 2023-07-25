@@ -1,27 +1,81 @@
-# React + TypeScript + Vite
+# React Form Ease
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React Form Ease is a simple no-option form manager that will help you maintain a clean and tidy state of your forms and their validations.
 
-Currently, two official plugins are available:
+## Basic Usage  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+All you have to do is call the `useForm()` hook, give it some initial data, which will correspond to the fields of your form, and get a function to update it.
 
-## Expanding the ESLint configuration
+![Basic](./docs/img/basic.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Validations
 
-- Configure the top-level `parserOptions` property like this:
+To create validations, pass a second argument to `useForm()` called validations.
+A validator function must be passed for each property that you want to validate, which may or may not return an error message. If an error message is returned, it will be taken as a failed validation and the errors can be recovered in the errors object provided by the hook.
+To execute the validations you must call the `validateForm()` function, also provided by the hook, for example in the submit handler.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+![Basic](./docs/img/validations.png)
+
+## Async validations
+
+Sometimes you will need asynchronous validations, for example to check in the backend if an email is already registered or not.
+For this type of case you can use the property called `asyncValidations` of the `useForm()` hook, which works exactly the same as validations but they must return a string promise instead of a string, since they must be async functions.
+There is also its counterpart `validateFormAsync`, a function that will execute all asynchronous validators and update the error messages corresponding to their validator function.
+
+![Basic](./docs/img/async-validation.png)
+
+## Hot validations
+
+All validations are executed manually (usually before processing the data in the submit method), but it can also be executed on the fly, once the user has left an input.
+For this we use the `validateInput()` or `validateInputAsync()` functions, in case there is an asynchronous validation for that field.
+
+![Basic](./docs/img/hot-validation.png)
+
+## Reset form state
+
+You can reset the form via the `resetForm()` method provided by the `useForm()` hook. Only run it once you have used the entered data.
+All your inputs will need to be controlled by their value property.
+
+![Basic](./docs/img/reset.png)
+
+## Loading state
+
+The hook provides a state called `isLoading` and its mutator function `setIsLoading()`.
+These are useful in case you want to make an asynchronous process, for example an ajax call with the form data and you need to reflect the wait in the UI, for example disable the submit button or show a spinner.
+
+```TSX
+const { isLoading, setIsLoading, formData, resetForm} = useForm({
+   ...
+})
+
+const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+   //More code after...
+
+   setIsLoading(true)
+
+   setTimeout(() => {
+      alert(JSON.stringify(formData))
+      setIsLoading(false)
+      resetForm()
+   }, 1000)
+}
+
+<form>
+   {/* ...inputs */}
+
+   <button type='submit' disabled={isLoading}>
+        Submit
+   </button>
+</form>
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Form component
+
+React Form Ease provides an optional component called Form, which receives an asynchronous `onSubmit` callback and will perform validations automatically before the callback, as well as set the isLoading state to true until the callback has been resolved. you need to pass the rest of the hook properties that you don't use where you are using the form. Is yu use Form component, you don't need to call e.preventDefault().
+If you can reset the form after submitting it, you can use resetAfterSubmit prop of Form component.  
+
+This is completely optional, but it can save you a few lines of code.
+
+![Basic](./docs/img/form.png)
+
