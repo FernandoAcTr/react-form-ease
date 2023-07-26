@@ -72,10 +72,103 @@ const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 ## Form component
 
-React Form Ease provides an optional component called Form, which receives an asynchronous `onSubmit` callback and will perform validations automatically before the callback, as well as set the isLoading state to true until the callback has been resolved. you need to pass the rest of the hook properties that you don't use where you are using the form. Is yu use Form component, you don't need to call e.preventDefault().
-If you can reset the form after submitting it, you can use resetAfterSubmit prop of Form component.  
+React Form Ease provides an optional component called Form, which receives an asynchronous `onSubmit` callback and will perform validations automatically before the callback, as well as set the isLoading state to true until the callback has been resolved. you need to pass the rest of the hook properties that you don't use where you are using the form. If you use Form component, you don't need to call e.preventDefault().
+If you want to reset the form after submitting it, you can use resetAfterSubmit prop of Form component.  
 
 This is completely optional, but it can save you a few lines of code.
 
 ![Basic](./docs/img/form.png)
 
+## Built in validators
+
+React Form Ease comes with pre-built validators with which you can validate common use cases for:
+- strings
+- numbers
+- booleans
+- dates  
+  
+For example you can rewrite this:
+```TS
+const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
+    initialData: {
+      email: '',
+      password: '',
+      name: '',
+      check: false,
+    },
+    validations: {
+      email: (value) => {
+        if (!value) return 'Please enter an email'
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) return 'Please enter a valid email'
+      },
+      name: (value) => {
+        if (!value) return 'Please enter your name'
+      },
+      password: (value) => {
+        if (!value) return 'Please enter a password'
+      },
+      check: (value) => {
+        if (!value) return 'Please accept the privacy policies'
+      },
+    },
+  })
+```
+like this
+
+```TS
+const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
+    initialData: {
+      email: '',
+      password: '',
+      name: '',
+      check: false,
+    },
+    validations: {
+      email: (value) => string(value).required('Please enter an email').email().validate(),
+      name: (value) => string(value).required().name().validate(),
+      password: (value) => string(value).required().min(4).max(8).validate(),
+      check: (value) => boolean(value).required().isTrue('Please accept the privacy policies').validate(),
+    },
+  })
+```
+
+All you have to do is start a validation string with the data type you need to validate, for example string(), number(), boolean() or date() and pass the validated value as an argument.
+
+```TS
+validations: {
+   email: (value) => string(value)...,
+},
+```
+
+You can then continue the chain with as many validations as you require. At the end you must finalize the chain by calling the validate() method.
+
+```TS
+validations: {
+   email: (value) => string(value).required().email().min(5).max(20).validate(),
+},
+```
+
+Each validator has a predefined error message, but you can pass a custom message as the last argument to each validator.
+
+```TS
+validations: {
+   email: (value) => string(value).required("Please enter an email").email("Please enter a valid email").min(5, "Al least 5 chars").max(20, "Less than 20 chars").validate(),
+},
+```
+
+### Combine built in validators and custom validations
+
+You can use the predefined validators and still do more specific validations, for example.
+
+```TS
+validations: {
+      email: (value) => string(value).required('Please enter an email').email().validate(),
+      name: (value) => string(value).required().name().validate(),
+      password: (value) => {
+        const error = string(value).required().min(4).max(8).validate()
+        if (error) return error
+        if(value.includes('.')) return '. is forbidden'
+      },
+      check: (value) => boolean(value).required().isTrue('Please accept the privacy policies').validate(),
+}
+```
