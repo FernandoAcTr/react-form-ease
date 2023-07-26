@@ -8,7 +8,7 @@ export interface FormProps extends React.DetailedHTMLProps<React.FormHTMLAttribu
 }
 
 export default function Form(props: Omit<FormProps, 'noValidate'>) {
-  const { form, onSubmit, resetAfterSubmit = false, children } = props
+  const { form, onSubmit, resetAfterSubmit = false, children, ...other } = props
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,7 +22,7 @@ export default function Form(props: Omit<FormProps, 'noValidate'>) {
   }
 
   return (
-    <form {...props} onSubmit={submit} noValidate>
+    <form {...other} onSubmit={submit} noValidate>
       {children}
     </form>
   )
