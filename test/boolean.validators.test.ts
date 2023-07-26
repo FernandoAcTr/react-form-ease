@@ -7,4 +7,16 @@ describe('Boolean Validators', () => {
     expect(boolean(null).required('X').validate()).toBe('X')
     expect(boolean().required('X').validate()).toBe('X')
   })
+
+  test('isTrue', () => {
+    expect(boolean().isTrue('X').validate()).toBeFalsy()
+    expect(boolean(true).isTrue('X').validate()).toBeFalsy()
+    expect(boolean(false).isTrue('X').validate()).toBe('X')
+  })
+
+  test('isFalse', () => {
+    expect(boolean().isFalse('X').validate()).toBeFalsy()
+    expect(boolean(false).isFalse('X').validate()).toBeFalsy()
+    expect(boolean(true).isFalse('X').validate()).toBe('X')
+  })
 })

@@ -1,6 +1,7 @@
 import { useForm } from '../hooks/useForm'
+import { boolean, string } from '../validators'
 
-export default function BasicValidation() {
+export default function WithValidators() {
   const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
     initialData: {
       email: '',
@@ -9,19 +10,10 @@ export default function BasicValidation() {
       check: false,
     },
     validations: {
-      email: (value) => {
-        if (!value) return 'Please enter an email'
-        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) return 'Please enter a valid email'
-      },
-      name: (value) => {
-        if (!value) return 'Please enter your name'
-      },
-      password: (value) => {
-        if (!value) return 'Please enter a password'
-      },
-      check: (value) => {
-        if (!value) return 'Please accept the privacy policies'
-      },
+      email: (value) => string(value).required('Please enter an email').email().validate(),
+      name: (value) => string(value).required().name().validate(),
+      password: (value) => string(value).required().min(4).max(8).validate(),
+      check: (value) => boolean(value).required().isTrue('Please accept the privacy policies').validate(),
     },
   })
 
