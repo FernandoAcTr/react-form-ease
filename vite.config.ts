@@ -5,6 +5,7 @@ import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  plugins: [react(), dts()],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'index.ts'),
@@ -23,5 +24,5 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
   },
-  plugins: [react(), dts()],
+  
 })
