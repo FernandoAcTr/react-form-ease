@@ -90,7 +90,7 @@ React Form Ease comes with pre-built validators with which you can validate comm
 For example you can rewrite this:
 ```TS
 const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',
@@ -117,7 +117,7 @@ like this
 
 ```TS
 const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',

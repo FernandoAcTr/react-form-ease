@@ -15,7 +15,7 @@ export default function AsyncValidation() {
     validateInputAsync,
     validateFormAsync,
   } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',

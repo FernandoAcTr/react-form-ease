@@ -5,7 +5,7 @@ const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms))
 
 export default function FormComponent() {
   const { formData, updateForm, isLoading, errors, ...form } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',
@@ -27,10 +27,10 @@ export default function FormComponent() {
       },
     },
     asyncValidations: {
-      email: async (_value) => {
+      email: async (value) => {
         //Checking in backend if email already exists
         await sleep(1000)
-        if (Math.random() < 0.5) return 'This email is already taken'
+        if (value.includes('example')) return 'This email is already taken'
       },
     },
   })

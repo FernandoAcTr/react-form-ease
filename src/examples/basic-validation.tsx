@@ -2,7 +2,7 @@ import { useForm } from '../hooks/useForm'
 
 export default function BasicValidation() {
   const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',

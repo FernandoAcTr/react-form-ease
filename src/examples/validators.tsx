@@ -3,7 +3,7 @@ import { boolean, string } from '../validators'
 
 export default function WithValidators() {
   const { formData, updateForm, isLoading, setIsLoading, validateForm, errors, resetForm } = useForm({
-    initialData: {
+    data: {
       email: '',
       password: '',
       name: '',

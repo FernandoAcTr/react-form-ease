@@ -4,7 +4,7 @@ type Validator<T, F> = (value: T, form: F) => string | undefined
 type AsyncValidator<T, F> = (value: T, form: F) => Promise<string | void>
 
 type FormOptions<T> = {
-  initialData: T
+  data: T
   validations?: { [key in keyof Partial<T>]: Validator<T[key], T> }
   asyncValidations?: { [key in keyof Partial<T>]: AsyncValidator<T[key], T> }
 }
@@ -12,16 +12,16 @@ type FormOptions<T> = {
 type Errors<T> = { [key in keyof Partial<T>]: string }
 
 export function useForm<T>(options: FormOptions<T>) {
-  const { initialData, validations, asyncValidations } = options
+  const { data, validations, asyncValidations } = options
   const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState<T>(initialData)
+  const [formData, setFormData] = useState<T>(data)
   const [errors, setErrors] = useState<Errors<T>>()
 
   const updateForm = (newData: Partial<T>) => {
     setFormData({ ...formData, ...newData })
     Object.keys(newData).forEach((key) => setErrors({ ...errors, [key]: undefined } as any))
   }
-  const resetForm = () => setFormData(initialData)
+  const resetForm = () => setFormData(data)
 
   const validateForm = (): boolean => {
     if (!validations || Object.keys(validations).length == 0) return true
