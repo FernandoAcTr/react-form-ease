@@ -77,7 +77,7 @@ const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault()
   if (!validateForm()) return
 
-  //Here formData container valid data
+  //Here formData contains valid data
 }
 
 <form onSubmit={onSubmit} noValidate>
@@ -147,7 +147,7 @@ const { formData, updateForm, isLoading, validateForm, validateFormAsync, errors
     asyncValidations: {
       email: async (value) => {
         const isEmailTaken = await someAsyncFunction()
-        if (value.includes('example')) return 'This email is already taken'
+        if (isEmailTaken) return 'This email is already taken'
       },
     },
   })
@@ -157,7 +157,7 @@ const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   if (!validateForm()) return
   if (!(await validateFormAsync())) return //<- Check here the async validation after sync validation
 
-  //Here formData container valid data
+  //Here formData contains valid data
 }
 ```
 
@@ -335,7 +335,9 @@ React Form Ease comes with pre-built validators with which you can validate comm
 - strings
 - numbers
 - booleans
-- dates  
+- dates 
+- objects
+- arrays 
   
 For example you can rewrite this:
 ```TS
