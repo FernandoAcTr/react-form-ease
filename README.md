@@ -2,6 +2,10 @@
 
 React Form Ease is a simple no-option form manager that will help you maintain a clean and tidy state of your forms and their validations.
 
+## Demo
+
+[![Edit react-form-ease](https://codesandbox.io/static/img/play-codesandbox.svg)](https://stackblitz.com/edit/stackblitz-starters-7i2aih?file=src%2FApp.js)
+
 ## Basic Usage  
 
 All you have to do is call the `useForm()` hook, give it some initial data, which will correspond to the fields of your form, and get a function to update it.
