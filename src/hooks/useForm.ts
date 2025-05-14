@@ -21,7 +21,10 @@ export function useForm<T>(options: FormOptions<T>) {
     setFormData({ ...formData, ...newData })
     Object.keys(newData).forEach((key) => setErrors({ ...errors, [key]: undefined } as any))
   }
-  const resetForm = () => setFormData(data)
+  const resetForm = () => {
+    setFormData(data)
+    setErrors(undefined)
+  }
 
   const validateForm = (): boolean => {
     if (!validations || Object.keys(validations).length == 0) return true
